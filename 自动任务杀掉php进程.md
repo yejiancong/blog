@@ -32,3 +32,18 @@ done
 ```
 * * * * * /bin/bash /root/kill_php_cgi.sh
 ```
+
+##Crontab用法
+
+```
+[root@bash ~]# crontab --help   #<==注：crontab –l –e都是直接操作/var/spool/cron/下当前用户名的文件
+usage: crontab [-u user] file    #<==指定某用户如crontab –u yejiancong –e，编辑yejiancong家目录下的crontab
+    crontab [-u user] [ -e | -l | -r ]
+        (default operation is replace,per 1003.2)
+    -e   (edit user's crontab)  #<==编辑当前用户的定时任务
+    -l   (list user's crontab)  #<==查看当前用户的定时任务
+    -r   (delete user's crontab)  #<==删除定时任务
+    -i   (prompt before deletinguser's crontab) #<==删除crontab文件内容，删前会有提示
+    -s   (selinux context)
+```
+cron执行的每一项工作都会被纪录到/var/log/cron这个日志文件中，可以从这个文件查看命令执行的状态。
