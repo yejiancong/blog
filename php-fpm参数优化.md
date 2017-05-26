@@ -51,3 +51,18 @@ echo pm.start_servers = $(($Mem/$i/30))
 echo pm.min_spare_servers = $(($Mem/$i/40))
 echo pm.max_spare_servers = $(($Mem/$i/20))
 ```
+
+## 用strace 调试 php-fpm进程
+
+查看php-fpm进程
+```
+ps -ef | grep php-fpm
+```
+
+调试进程输出日志到文件
+```
+sudo strace -f -p 2105 -e trace=file -o /temp/trace.log
+```
+
+查看日志文件
+tail -f /temp/trace.log
