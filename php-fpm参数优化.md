@@ -61,10 +61,10 @@ ps -ef | grep php-fpm
 
 调试进程输出日志到文件
 ```
-sudo strace -f -p 2105 -e trace=file -o /temp/trace.log
+sudo strace -f -p 2105 -e trace=file -o /tmp/trace.log
 ```
 
 查看日志文件
 ```
-tail -f /temp/trace.log
+tail -f /tmp/trace.log
 ```
