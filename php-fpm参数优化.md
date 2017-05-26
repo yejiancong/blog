@@ -40,4 +40,14 @@ pm.max_children = 24
 pm.start_servers = 16
 pm.min_spare_servers = 12
 ```
-pm.max_spare_servers = 24
+
+自定义输出
+```
+i=1 #倍数
+Mem=`free -m | awk '/Mem:/{print $2}'` #我的机器内存
+echo $Mem
+echo pm.max_children = $(($Mem/$i/20))
+echo pm.start_servers = $(($Mem/$i/30))
+echo pm.min_spare_servers = $(($Mem/$i/40))
+echo pm.max_spare_servers = $(($Mem/$i/20))
+```
