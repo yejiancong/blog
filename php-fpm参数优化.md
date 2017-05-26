@@ -65,4 +65,6 @@ sudo strace -f -p 2105 -e trace=file -o /temp/trace.log
 ```
 
 查看日志文件
+```
 tail -f /temp/trace.log
+```
