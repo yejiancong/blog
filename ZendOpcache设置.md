@@ -27,6 +27,32 @@ opcache.revalidate_freq=300
 opcache.fast_shutdown=1
 ```
 
+## 设置例外
+也许服务器上某些内容，比如正在进行调试的网站等，我们不希望对其进行 OPcache。那就可以通过黑名单来将需要例外的文件排除掉。
+
+在 OPcache 的配置文件中有一行配置，如下，
+
+```
+opcache.blacklist_filename=/etc/php.d/opcache*.blacklist
+```
+该配置指定用于存储文件名黑名单的那个文件。很显然这里使用通配符 * 来指定了一系列文件而不仅仅是特定某个文件。可以一直启用这一行。等到需要排除某些文件的时候，就编辑对应的黑名单文件。例如，针对 `/srv/www/sites/devSite` 文件夹下的所有文件，编辑（或者新建）文件，
+
+```
+vim /etc/php.d/opcache-devSite.blacklist
+```
+
+内容为，
+```
+/srv/www/sites/devSite/*
+```
+嗯，只有这么一行内容。通配符 * 表示所有 devSite 文件夹下的文件。
+
+完了之后重新启动 php-fpm 服务就可以了。
+
+```
+sudo /etc/init.d/php-fpm reload
+```
+
 ### 查看opcache状态：
 https://github.com/rlerdorf/opcache-status
 
