@@ -1,6 +1,6 @@
 # ZendOpcache设置
 
-php配置追加
+## 开启php的zend opcache缓存,php配置追加
 ```
 vi /etc/php.ini
 ```
@@ -26,3 +26,6 @@ opcache.revalidate_freq=300
 ;打开快速关闭, 打开这个在PHP Request Shutdown的时候回收内存的速度会提高
 opcache.fast_shutdown=1
 ```
+
+### 查看opcache状态：
+https://github.com/rlerdorf/opcache-status
