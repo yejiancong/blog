@@ -17,6 +17,15 @@ killall memcached
 #-P是设置保存Memcache的pid文件，我这里是保存在 /tmp/memcached.pid，
 ```
 
+## 查看启动的memcache服务：
+```
+netstat -lp | grep memcached
+```
+
+## 查看memcache的进程号（根据进程号，可以结束memcache服务：“kill -9 进程号”）
+```
+ps -ef | grep memcached
+```
 
 ## 修改php session支持 memcached
 `vi /etc/php.ini`
@@ -27,4 +36,15 @@ session.save_handler = files
 ```
 session.save_handler=memcached
 session.save_path="tcp://127.0.0.1:11211"
+```
+
+## discuz 开启memcached服务
+查找关键字 "memcache"  找到
+```
+$_config['memory']['memcache']['server'] = '';
+```
+
+将其修改为
+```
+$_config['memory']['memcache']['server'] = '127.0.0.1';
 ```
