@@ -25,6 +25,8 @@ opcache.validate_timestamps=0
 opcache.revalidate_freq=300
 ;打开快速关闭, 打开这个在PHP Request Shutdown的时候回收内存的速度会提高
 opcache.fast_shutdown=1
+;浪费内存的上限，以百分比计。 如果达到此上限，那么 OPcache 将产生重新启动续发事件
+opcache.max_wasted_percentage=5
 ```
 
 ## 设置例外
