@@ -50,6 +50,8 @@ $_config['memory']['memcache']['server'] = '127.0.0.1';
 ```
 
 ## gui
+https://github.com/elijaa/phpmemcachedadmin
+
 https://github.com/mailopl/memcached-gui
 
 http://www.junopen.com/memadmin/
