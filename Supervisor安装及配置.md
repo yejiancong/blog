@@ -49,7 +49,7 @@ stopwaitsecs=10
 redirect_stderr=true
 ```
 
-## 开启自动启动
+## 开启自动启动 centos6.5
 
 将supervisord加入系统服务，以下代码来自gist，文件：/etc/init.d/supervisord
 
@@ -130,6 +130,10 @@ service supervisord start
 chkconfig --list
 ```
 
+## 开启自动启动 centos7
+
+https://github.com/Supervisor/initscripts/blob/master/centos-systemd-etcs
+
 ## Supervisord inet_http_server behind nginx
 
 Supervisord settings:
@@ -190,7 +194,7 @@ server {
 ## 运行命令
 
 
-
+```
 # 启动supervisor
 supervisord
 
