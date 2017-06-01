@@ -125,7 +125,66 @@ esac
 chmod +x /etc/init.d/supervisord
 chkconfig supervisord on
 service supervisord start
+
+# 查看是否在启动项里
+chkconfig --list
 ```
+
+## Supervisord inet_http_server behind nginx
+
+Supervisord settings:
+
+```
+[inet_http_server]
+port = 127.0.0.1:9001
+```
+
+Nginx settings:
+```
+server {
+		listen       80;
+	
+
+		server_name manage.net;
+		autoindex on;
+		index index.htm index.html index.php;
+		root  /data/www/github.com/manage/;
+		access_log  /data/nginx_logs/access.manage.net.log;
+		
+	        auth_basic "Restricted";
+       	        auth_basic_user_file /usr/local/nginx/conf/password;
+		
+
+		location ~ .*\.(php)?$
+		{
+			fastcgi_pass   fastcgi_loads_balance;
+			fastcgi_index  index.php;
+			fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
+			include        fastcgi_params;
+			client_max_body_size 200m;
+		}
+	
+		location /ngx_status
+		{
+			stub_status on;
+			access_log off;
+		}
+		
+	        location /supervisor/ {
+	                proxy_pass http://127.0.0.1:9001/;
+                        proxy_http_version 1.1;
+		        proxy_buffering     off;
+                        proxy_max_temp_file_size 0;
+                        proxy_redirect     default;
+                        proxy_set_header   Host             $host;
+                        proxy_set_header   X-Real-IP        $remote_addr;
+                        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+                        proxy_set_header   Connection       "";
+	        }
+
+               error_log  /data/nginx_logs/error.manage.net.log;
+
+}
 
 ## 运行命令
 
