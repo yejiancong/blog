@@ -185,11 +185,12 @@ server {
                error_log  /data/nginx_logs/error.manage.net.log;
 
 }
+```
 
 ## 运行命令
 
 
-```
+
 # 启动supervisor
 supervisord
 
@@ -202,3 +203,6 @@ supervisorctl shutdown
 # 重新加载配置文件
 supervisorctl reload
 ```
+
+## 注意事项
+supervisor不能对守护进程进行监视
