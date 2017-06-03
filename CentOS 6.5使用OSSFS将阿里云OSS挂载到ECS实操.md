@@ -100,3 +100,10 @@ location ~* ^/data/attachment/ {
     rewrite ^/data/attachment/(.*)$ http://img.web.com/data/attachment/$1 permanent;  
 }
 ```
+
+## 数据批量转移
+```
+\cp -R -a /data/www/bbs/data/attachment_20170603的数据/* /oss/wuxieoss/data/attachment/
+```
+```批量
+```
