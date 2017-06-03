@@ -72,5 +72,24 @@ uid=502(www) gid=501(www) 组=501(www)
 开始挂载（-ouid=502 -ogid=501  -oumask=007 -o allow_other 主要解决owncloud提示挂载目录0770的问题）
 ```
 mkdir /ossfs/test
-ossfs test /oss/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=502 -ogid=501 -oumask=007 -o allow_other
+ossfs test /ossfs/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=502 -ogid=501 -oumask=007 -o allow_other
+```
+
+## 开机自动挂起
+```
+[root@centos56 ~]# vi /etc/init.d/ossfs
+[root@centos56 ~]# chmod a+x /etc/init.d/ossfs
+[root@centos56 ~]# chkconfig ossfs on
+```
+/etc/init.d/ossfs如下:
+```
+#! /bin/bash
+#
+# ossfs      Automount Aliyun OSS Bucket in the specified direcotry.
+#
+# chkconfig: 2345 90 10
+# description: Activates/Deactivates ossfs configured to start at boot time.
+
+#ossfs your_bucket your_mountpoint -ourl=your_url -oallow_other
+ossfs test /ossfs/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=502 -ogid=501 -oumask=007 -o allow_other
 ```
