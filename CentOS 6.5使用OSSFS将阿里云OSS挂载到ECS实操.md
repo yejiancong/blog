@@ -93,3 +93,10 @@ ossfs test /ossfs/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=
 #ossfs your_bucket your_mountpoint -ourl=your_url -oallow_other
 ossfs test /ossfs/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=502 -ogid=501 -oumask=007 -o allow_other
 ```
+
+## nginx 301 重定向到oos域名
+```
+location ~* ^/data/attachment/ {  
+    rewrite ^/data/attachment/(.*)$ http://img.web.com/data/attachment/$1 permanent;  
+}
+```
