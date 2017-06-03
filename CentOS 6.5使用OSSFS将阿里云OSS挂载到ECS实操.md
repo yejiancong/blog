@@ -46,16 +46,31 @@ ossfs my-bucket my-mount-point -ourl=my-oss-endpoint
 
 ##实际运行
 
-下面是将华南 1 (深圳)bucket名字为myoss，AccessKeyId是faint， AccessKeySecret是123，oss endpoint是http://oss-cn-hangzhou-internal.aliyuncs.com(内网)挂载到/home/ossfs目录。
+下面是将华南 1 (深圳)bucket名字为test，AccessKeyId是faint， AccessKeySecret是123，oss endpoint是http://oss-cn-hangzhou-internal.aliyuncs.com(内网)挂载到/home/ossfs目录。
 Endpoint对照表请访问：OSS开通Region和Endpoint对照表查看https://help.aliyun.com/document_detail/31837.html。
 
 ```
-echo myoss:faint:123 > /etc/passwd-ossfs
+echo test:faint:123 > /etc/passwd-ossfs
 chmod 640 /etc/passwd-ossfs
-mkdir /home/ossfs
-ossfs myoss /home/ossfs -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com
+mkdir /ossfs/test
+ossfs test /ossfs/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=502 -ogid=501 -oumask=007 -o allow_other
 ```
 
 
 取消挂载
-直接输入`umount /home/ossfs`即可
+直接输入`umount /ossfs/test`即可
+
+
+## OSSFS权限问题
+
+挂载给用户www,首先查看www id
+```
+[root@centos56 oss]# id www
+uid=502(www) gid=501(www) 组=501(www)
+```
+
+开始挂载（-ouid=502 -ogid=501  -oumask=007 -o allow_other 主要解决owncloud提示挂载目录0770的问题）
+```
+mkdir /ossfs/test
+ossfs test /oss/test -ourl=http://oss-cn-shenzhen-internal.aliyuncs.com -ouid=502 -ogid=501 -oumask=007 -o allow_other
+```
