@@ -29,6 +29,12 @@ Install the latest version of Docker CE on Ubuntu:
 sudo apt-get -y install docker-ce
 ```
 
+Configure Docker to start on boot
+Most current Linux distributions (RHEL, CentOS, Fedora, Ubuntu 16.04 and higher) use systemd to manage which services start when the system boots. Ubuntu 14.10 and below use upstart.
+```
+echo manual | sudo tee /etc/init/docker.override
+```
+
 Install Docker Compose
 ```
 pip install docker-compose
@@ -36,12 +42,10 @@ pip install docker-compose
 
 Aliyun accelerator
 ```
-sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": ["https://fon8u9ig.mirror.aliyuncs.com"]
 }
 EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+sudo service docker restart
 ```
