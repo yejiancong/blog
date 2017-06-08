@@ -37,6 +37,13 @@ echo manual | sudo tee /etc/init/docker.override
 
 Install Docker Compose
 ```
+curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
+or
+
+```
 pip install urllib3==1.14
 export PYTHONPATH=/usr/local/lib/python2.7/dist-packages:/usr/lib/python2.7/dist-packages
 
