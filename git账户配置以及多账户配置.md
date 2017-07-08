@@ -4,10 +4,12 @@
 个人和公司,针对一平台有多个git帐户,在使用时难免要区分登陆
 
 ## ssh-keygen以下配置
-​```
+
+
 ssh-keygen -t rsa -f ~/.ssh/id_rsa.aliyun_tom -C "tom@qq.com"
+
 ssh-keygen -t rsa -f ~/.ssh/id_rsa.aliyun_garry -C "garry@qq.com"
-```
+
 
 ## ssh config 配置
 vi ~/.ssh/config
