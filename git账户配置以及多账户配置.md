@@ -5,11 +5,10 @@
 
 ## ssh-keygen以下配置
 
-
+```
 ssh-keygen -t rsa -f ~/.ssh/id_rsa.aliyun_tom -C 'tom@qq.com'
-
 ssh-keygen -t rsa -f ~/.ssh/id_rsa.aliyun_garry -C 'garry@qq.com'
-
+```
 
 ## ssh config 配置
 vi ~/.ssh/config
