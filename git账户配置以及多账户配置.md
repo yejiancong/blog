@@ -45,5 +45,5 @@ git config --local user.email '你的邮箱@mail.com'
 
 ## 应用
 ```
-git clone aliyun_garry:test/oa.git
+git clone git@aliyun_garry:test/oa.git
 ```
