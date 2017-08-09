@@ -38,8 +38,8 @@ git config --global --unset user.email
 删除用户账户设置，在每一个repo下面使用命令单独设置用户账户信息
 
 ```
-git config --local user.name '你的名字'
-git config --local user.email '你的邮箱@mail.com'
+git config --local user.name 'yejiancong'
+git config --local user.email '15900135@qq.com'
 ```
 
 
