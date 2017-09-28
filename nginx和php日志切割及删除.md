@@ -1,5 +1,5 @@
 `vi spit_logs.php`
-```
+```php
 <?php
 /**
  * Class Log
