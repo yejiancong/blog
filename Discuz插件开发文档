@@ -1,0 +1,256 @@
+# Discuz插件开发文档 #
+
+主要整理Discuz插件相关技术文档
+
+本文档使用markdown格式，可使用phpStorm等编辑器打开阅读
+
+## 常识
+
+### 一、基础点说明
+
+- 插件位于目录`source/plugin`下的，在目录下英文名字的文件夹名表示`插件标识`或为插件的`id`值
+- 插件配置文件为`discuz_plugin_插件标识.xml`
+- 插件安装文件`install.php`
+- 插件更新文件`upgrade.php`
+- 插件数据库操作的class类，位于该插件目录名叫`table`目录下
+- 插件运行文件`模块名.inc.php`，里面写php代码
+
+### 二、前台
+
+`http://baidu.com/plugin.php?id=change`表示运行插件下的`index.inc.php`文件
+`http://baidu.com/plugin.php?id=change:index`表示运行插件下的`index.inc.php`文件
+`http://baidu.com/plugin.php?id=change:change`表示运行插件下的`change.inc.php`文件
+
+### 三、后台
+
+`http://baidu.com/admin.php?action=plugins&operation=config&identifier=change&pmod=app_carousel`表示运行插件下的`app_carousel.inc.php`文件
+
+## 配置相关，以为change插件实例说明
+
+### 一、配置文件
+
+配置文件名为：`discuz_plugin_change.xml`
+
+代码：
+```xml
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
+	<item id="Version"><![CDATA[X3.2]]></item>
+	<item id="Time"><![CDATA[2016-06-28 13:53]]></item>
+	<item id="From"><![CDATA[插件名 (http://baidu.com/)]]></item>
+	<item id="Data">
+		<item id="plugin">
+			<item id="available"><![CDATA[1]]></item>
+			<item id="adminid"><![CDATA[1]]></item>
+			<item id="name"><![CDATA[插件名]]></item>
+			<item id="identifier"><![CDATA[change]]></item>
+			<item id="description"><![CDATA[CDATA插件]]></item>
+			<item id="datatables"><![CDATA[]]></item>
+			<item id="directory"><![CDATA[change/]]></item>
+			<item id="copyright"><![CDATA[插件名]]></item>
+			<item id="version"><![CDATA[1.11]]></item>
+			<item id="__modules">
+				<item id="0">
+					<item id="name"><![CDATA[change]]></item>
+					<item id="param"><![CDATA[]]></item>
+					<item id="menu"><![CDATA[]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[11]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[0]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+				<item id="1">
+					<item id="name"><![CDATA[app_setting]]></item>
+					<item id="param"><![CDATA[]]></item>
+					<item id="menu"><![CDATA[App设置]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[3]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+				<item id="2">
+					<item id="name"><![CDATA[app_carousel]]></item>
+					<item id="param"><![CDATA[]]></item>
+					<item id="menu"><![CDATA[App轮播图]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[3]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+				<item id="3">
+					<item id="name"><![CDATA[pc_notice]]></item>
+					<item id="param"><![CDATA[]]></item>
+					<item id="menu"><![CDATA[PC公告]]></item>
+					<item id="url"><![CDATA[]]></item>
+					<item id="type"><![CDATA[3]]></item>
+					<item id="adminid"><![CDATA[0]]></item>
+					<item id="displayorder"><![CDATA[]]></item>
+					<item id="navtitle"><![CDATA[]]></item>
+					<item id="navicon"><![CDATA[]]></item>
+					<item id="navsubname"><![CDATA[]]></item>
+					<item id="navsuburl"><![CDATA[]]></item>
+				</item>
+			</item>
+		</item>
+		<item id="version"><![CDATA[X3.2]]></item>
+		<item id="var">
+			<item id="0">
+				<item id="displayorder"><![CDATA[0]]></item>
+				<item id="title"><![CDATA[积分设置]]></item>
+				<item id="description"><![CDATA[]]></item>
+				<item id="variable"><![CDATA[showtitle]]></item>
+				<item id="type"><![CDATA[text]]></item>
+				<item id="value"><![CDATA[plugin.php?id=change:credits]]></item>
+				<item id="extra"><![CDATA[]]></item>
+			</item>
+		</item>
+		<item id="installfile"><![CDATA[install.php]]></item>
+	</item>
+</root>
+```
+
+配置说明：
+- 每次修改要`卸载`后`安装`且`启用`才生效
+- identifier 插件标识名一定要为该插件的目录名`change`
+- directory 插件目录为`change/`
+- 插件的模块在`__modules`下按重0递增的大小增加
+
+以下为第二个模块`app_carousel`名字为`App轮播图`
+
+```xml
+<item id="2">
+<item id="name"><![CDATA[app_carousel]]></item>
+<item id="param"><![CDATA[]]></item>
+<item id="menu"><![CDATA[App轮播图]]></item>
+<item id="url"><![CDATA[]]></item>
+<item id="type"><![CDATA[3]]></item>
+<item id="adminid"><![CDATA[0]]></item>
+<item id="displayorder"><![CDATA[]]></item>
+<item id="navtitle"><![CDATA[]]></item>
+<item id="navicon"><![CDATA[]]></item>
+<item id="navsubname"><![CDATA[]]></item>
+<item id="navsuburl"><![CDATA[]]></item>
+</item>
+```
+
+
+### 二、install.php文件说明
+
+`install.php`里的代码在后台`安装`时才会运行一次
+
+注意：如果有删表行为请小心操作，否则数据丢失
+
+以下为实例备注说明
+
+```php
+<?php
+
+if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
+    exit('Access Denied');
+}
+
+//把要增加表的mysql写到这里
+$sql = <<<EOF
+
+CREATE TABLE IF NOT EXISTS `pre_app_setting` (
+  `option_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `option_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `option_value` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `option_lang` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `autoload` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'yes' COMMENT '自动载入（yes/no）',
+  PRIMARY KEY (`option_id`),
+  UNIQUE KEY `option_name` (`option_name`)
+) ENGINE=MyISAM  AUTO_INCREMENT=1 COMMENT='设置表';
+
+
+EOF;
+runquery($sql);//运行上面的$sql语句，如果不想运行注释掉即可
+$finish = TRUE;//告诉程序运行结束
+```
+
+
+### 三、uninstall.php文件说明
+
+`uninstall.php`里的代码在后台`卸载`时才会运行一次
+
+注意：如果有删表行为请小心操作，否则数据丢失
+
+```php
+<?php
+if(!defined('IN_DISCUZ')) {
+    exit('Access Denied');
+}
+
+//把要删除表的mysql写到这里
+$sql = <<<EOF
+DROP TABLE pre_app_setting;
+EOF;
+
+//这里还可以操作其它sql
+DB::query("UPDATE ".DB::table('home_doing')." SET `message` = replace (`message`,'".$installlang['fromsign']."','') WHERE `message` LIKE '%".$installlang['fromsign']."%'");
+$finish = TRUE;//告诉程序运行结束
+?>
+```
+
+### 四、插件类文件说明
+
+```xml
+<item id="0">
+<item id="name"><![CDATA[change]]></item>
+<item id="param"><![CDATA[]]></item>
+<item id="menu"><![CDATA[]]></item>
+<item id="url"><![CDATA[]]></item>
+<item id="type"><![CDATA[11]]></item>
+<item id="adminid"><![CDATA[0]]></item>
+<item id="displayorder"><![CDATA[0]]></item>
+<item id="navtitle"><![CDATA[]]></item>
+<item id="navicon"><![CDATA[]]></item>
+<item id="navsubname"><![CDATA[]]></item>
+<item id="navsuburl"><![CDATA[]]></item>
+</item>
+```
+
+类型设置`<item id="type"><![CDATA[11]]></item>`为11的表示运行文件`change.class.php`
+
+代码：
+```php
+<?php
+if(!defined('IN_DISCUZ')) {
+	exit('Access Denied');
+}
+
+class plugin_change {
+    //代码省略
+    
+    //网络有一些代码我在这里说明一下
+    //此文件可以写勾子在论坛模版里插入<!--{hook/global_student_info}-->后
+    //运行function global_student_info函数
+    /**
+     * 网校用户学员信息
+     * @return string
+     * @example <!--{hook/global_student_info}-->
+     */
+    function global_student_info(){
+        $html= '<p>测试</p>';
+        return $html;
+        //代码省略
+    }
+}
+```
+
+
+
+
