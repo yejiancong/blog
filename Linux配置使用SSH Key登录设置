@@ -1,0 +1,104 @@
+# Linux配置使用SSH Key登录
+
+### root用户登陆后，运行以下第一句指令，其他根据提示进行输入:
+
+```bash
+ssh-keygen -t rsa -f /root/.ssh/yejiancong
+```
+
+例如：
+```
+LWH:.ssh pyua01$ ssh-keygen -t rsa -f yejiancong
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):输入密码短语（留空则直接回车）
+Enter same passphrase again:重复密码短语 
+Your identification has been saved in yejiancong.
+Your public key has been saved in yejiancong.pub.
+The key fingerprint is:
+SHA256:rLn/nvtDH/0yAw3Su6mbAWZiwKhrph50TuXtVDXwqVQ pyua01@LWH.local
+The key's randomart image is:
++---[RSA 2048]----+
+|         ..E     |
+|   o      + o    |
+|  . o.   o +     |
+| .  o...o o o    |
+|.. o .ooS. . + . |
+|..+  .o* .  + o .|
+|.+ .  o.  .. = ..|
+|+ .    .   ++ = .|
+|o.    ...oO=.. + |
++----[SHA256]-----+
+```
+
+此时在/root/.ssh/目录下生成了2个文件，`yejiancong`为私钥，`yejiancong.pub`为公钥。私钥自己下载到本地电脑妥善保存（丢了服务器可就没法再登陆了），为安全，建议删除服务器端的私钥。公钥则可以任意公开。
+
+### 使用以下命令将公钥导入到VPS：
+
+```bash
+cat /root/.ssh/yejiancong.pub >> /root/.ssh/authorized_keys
+```
+
+将文件authorized_keys赋予600权限:
+
+```bash
+chmod 600 ~/.ssh/authorized_keys
+```
+
+- 3、本地电脑设置
+
+进入~/.ssh目录
+
+增加一行
+
+```
+Host baidu.com
+    IdentityFile ~/.ssh/yejiancong
+    User root
+```
+
+权限设置
+```bash
+chmod 600 ~/.ssh/yejiancong
+```
+
+### 登陆
+
+
+```bash
+ssh -o TCPKeepAlive=yes -o ServerAliveInterval=300 -p 22 root@baidu.com
+```
+
+### 关闭root用户使用密码登陆
+
+修改SSH的配置文件/etc/ssh/sshd_config :
+
+>RSAAuthentication yes #PubkeyAuthentication yes #AuthorizedKeysFile .ssh/authorized_keys
+
+去调上面3行前面的#，保存后重启SSH服务。
+
+```bash
+service sshd restart
+```
+
+至此你的主机已经支持使用SSH私钥证书登录。在你使用SSH Key登录验证成功后，还是为了安全，建议你关闭root用户使用密码登陆，关闭的方法如下：
+修改SSH的配置文件`/etc/ssh/sshd_config`，找到下面1行：
+
+```
+PasswordAuthentication yes
+```
+
+修改为：
+
+```
+PasswordAuthentication no
+```
+
+保存后重启SSH服务。
+
+```bash
+service sshd restart
+```
+
+好了，至此只要你保存好你的私钥（为安全，建议删除服务器端的私钥），你的服务器相比原来使用root用户加密码登陆来说已经安全多了。
+
+
