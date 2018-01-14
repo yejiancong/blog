@@ -59,3 +59,8 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 EOF
 sudo service docker restart
 ```
+
+免 sudo 使用 docker
+```
+sudo gpasswd -a ${USER} docker
+```
